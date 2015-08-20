@@ -3,15 +3,16 @@ import Router from 'react-router';
 
 let Link = Router.Link;
 
-let Home = React.createClass({
+let PlayNow = React.createClass({
   render () {
     return (
         <div>
-          <h1>Hello, let's play </h1>
+          <h1>Play now</h1>
           <h2>Domino</h2>
-         <Link to="playnow" className="btn btn-primary btn-lg">Play now</Link>
+         <Link to="home" className="btn btn-primary btn-lg">Back to home</Link>
         </div>
         )
   }
 });
-export default Home;
+export default PlayNow;
+

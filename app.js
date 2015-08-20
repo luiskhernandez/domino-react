@@ -1,6 +1,7 @@
 import React from 'react';
 import Router from 'react-router';
 import Home from './components/pages/home';
+import PlayNow from './components/pages/play-now';
 
 let Route = Router.Route
 let RouteHandler = Router.RouteHandler;
@@ -20,6 +21,7 @@ let App = React.createClass({
 let routes = (
      <Route handler={App}>
        <Route path="/" name="home" handler={Home}></Route>
+       <Route path="/playnow" name="playnow" handler={PlayNow}></Route>
      </Route>
     );
 
