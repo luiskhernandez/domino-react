@@ -5,9 +5,10 @@ import Card from './card';
 
 let Cards = React.createClass({
   renderList () {
+    let _this = this;
     return this.props.values.map( (value, index) => {
       return(
-          <Card key={index} value={value} nextCards={this.props.nextCards}></Card>
+          <Card key={index} index={index} value={value} playCard={_this.props.playCard} nextCards={_this.props.nextCards}></Card>
       )
     });
   },

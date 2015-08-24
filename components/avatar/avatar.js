@@ -8,7 +8,7 @@ let Avatar = React.createClass({
     return (
         <div className="col-md-1">
         <div className={classes}>
-         <Gravatar email={this.props.email} size="40" className="img-circle avatar__image"></Gravatar>
+         <Gravatar email={this.props.email} size={40}  className="img-circle avatar__image"></Gravatar>
           <div className="caption">
             <p>{this.props.name}</p>
           </div>

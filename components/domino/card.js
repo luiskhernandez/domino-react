@@ -4,6 +4,17 @@ import _ from 'underscore';
 
 
 let Card = React.createClass({
+  componentDidMount () {
+    let _this = this;
+    $("#card_"+this.props.index ).draggable(
+        {revert: 'invalid'},
+        {stop: function (event, ui) {
+          $(this).remove();
+          _this.props.playCard(_this.props.value);
+         }
+        }
+    );
+  },
   isAvailable (){
     let nextCard = this.props.nextCards;
     return _.contains(this.props.value, this.props.nextCards[0]) || _.contains(this.props.value, this.props.nextCards[1])
@@ -42,9 +53,10 @@ let Card = React.createClass({
     let temp = this.wordValue(this.props.value);
     let classes = classNames('domino', temp, this.props.direction,{ 'domino-noavailable': !this.isAvailable()});
     return (
-         <div className={classes}></div>
+         <div playCard={this.props.playCard} id={'card_'+ this.props.index} className={classes}></div>
         )
   }
 });
+// export default DragSource(ItemTypes.CARD, CardSource, collect)(Card);
 export default Card;
 

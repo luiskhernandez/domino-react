@@ -2,6 +2,7 @@ import React from 'react';
 import Router from 'react-router';
 import Avatar from '../avatar/avatar';
 import Cards from '../domino/cards'
+import Board from '../boardgame/board';
 import _ from 'underscore';
 
 let Link = Router.Link;
@@ -19,6 +20,9 @@ let PlayNow = React.createClass({
       cards: cards
     }
   },
+  playCard (value) {
+    alert("PlayNow"+ value[0] + "-" +value[1]);
+  },
   render () {
     let values = _.sample(this.state.cards,6);
     return (
@@ -29,7 +33,10 @@ let PlayNow = React.createClass({
             <Avatar email="luis.macias@koombea.com" name="Presto" selected={true}></Avatar>
           </div>
           <div className="row">
-             <Cards values={values} nextCards={[6,3]}></Cards>
+             <Board></Board>
+          </div>
+          <div className="row">
+             <Cards playCard={this.playCard} values={values} nextCards={[6,3]}></Cards>
            </div>
           </div>
         )
