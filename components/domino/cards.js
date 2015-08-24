@@ -13,8 +13,10 @@ let Cards = React.createClass({
   },
   render () {
     return (
-        <div>
-          {this.renderList()}
+        <div className="navbar-fixed-bottom cards">
+          <div className="container">
+            {this.renderList()}
+          </div>
         </div>
         )
   }

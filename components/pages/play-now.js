@@ -23,9 +23,7 @@ let PlayNow = React.createClass({
     let values = _.sample(this.state.cards,6);
     return (
         <div>
-          <h1>Play now</h1>
-          <h2>Domino</h2>
-           <Link to="home" className="btn btn-primary btn-lg">Back to home</Link>
+           <Link to="home" className="push-right">Back to home</Link>
            <div className="row">
             <Avatar email="luisk.hernandez.macias@gmail.com" name="Luisk" selected={false}></Avatar>
             <Avatar email="luis.macias@koombea.com" name="Presto" selected={true}></Avatar>
