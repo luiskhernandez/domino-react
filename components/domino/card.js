@@ -49,7 +49,7 @@ let Card = React.createClass({
   },
   render () {
     let temp = this.wordValue(this.props.value);
-    let classes = classNames('domino', temp, this.props.direction,{ 'domino-noavailable': !this.props.available}, {'r90': this.props.r90});
+    let classes = classNames('domino', temp, this.props.direction,{ 'domino-noavailable': !this.props.available}, {'r90': this.props.r90}, this.props.value[2]);
     return (
          <div playCard={this.props.playCard} id={'card_'+ this.props.index} className={classes}></div>
         )

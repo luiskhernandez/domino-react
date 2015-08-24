@@ -17,7 +17,6 @@ let Board = React.createClass({
     });
   },
   render () {
-    const { x, y, connectDropTarget, isOver } = this.props;
     return (
         <div className="row board" id="droppable">
           {this.renderList()}
