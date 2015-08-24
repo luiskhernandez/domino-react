@@ -1,8 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
+import _ from 'underscore';
 
 
 let Card = React.createClass({
+  isAvailable (){
+    let nextCard = this.props.nextCards;
+    return _.contains(this.props.value, this.props.nextCards[0]) || _.contains(this.props.value, this.props.nextCards[1])
+  },
   match (param) {
     let value;
     switch(param){
@@ -35,7 +40,7 @@ let Card = React.createClass({
   },
   render () {
     let temp = this.wordValue(this.props.value);
-    let classes = classNames('domino', temp);
+    let classes = classNames('domino', temp, this.props.direction,{ 'domino-noavailable': !this.isAvailable()});
     return (
          <div className={classes}></div>
         )

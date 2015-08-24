@@ -18,7 +18,7 @@ let PlayNow = React.createClass({
             <Avatar email="luis.macias@koombea.com" name="Presto" selected={true}></Avatar>
           </div>
           <div className="row">
-             <Cards values={values}></Cards>
+             <Cards values={values} nextCards={[6,3]}></Cards>
            </div>
           </div>
         )
