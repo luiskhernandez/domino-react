@@ -2,3 +2,7 @@
   width: 80px;
   height: 80px !important;
 }
+
+.avatar-selected {
+  border: 1px solid red;
+}
