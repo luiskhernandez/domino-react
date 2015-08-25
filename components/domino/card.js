@@ -4,17 +4,33 @@ import _ from 'underscore';
 
 
 let Card = React.createClass({
+  updateDragOptions (){
+    if(this.props.draggable === true){
+      if(this.props.available === true){
+        $("#card_"+this.props.index).draggable("enable");
+      }else{
+        $("#card_"+this.props.index).draggable("disable");
+      }
+    }
+  },
+  componentDidUpdate (){
+    this.updateDragOptions();
+  },
   componentDidMount () {
     let _this = this;
-    if (this.props.draggable){
-      $("#card_"+this.props.index ).draggable(
+    if(this.props.draggable === true){
+      $("#card_"+this.props.index).draggable(
           {revert: 'invalid'},
+          {drag: function(event,ui) {
+           }
+          },
           {stop: function (event, ui) {
             $(this).hide();
             _this.props.playCard(_this.props.value);
            }
           }
       );
+      this.updateDragOptions();
     }
   },
   match (param) {

@@ -3,23 +3,22 @@ import Card from './../domino/card';
 
 let Board = React.createClass({
   componentDidMount () {
-    let _this = this;
-    $("#droppable").droppable();
-  },
-  addItem (item) {
+    $(".board-wrapper").droppable();
   },
   renderList () {
     let _this = this;
     return this.props.values.map( (value, index) => {
       return(
-          <Card r90={value[0] != value[1]} key={index} draggable={false} index={index} value={value} available={true}></Card>
+          <Card draggable={false} r90={value[0] != value[1]} key={index} index={"board-card-"+index} value={value} available={true}></Card>
       )
     });
   },
   render () {
     return (
-        <div className="row board" id="droppable">
-          {this.renderList()}
+        <div className="board-wrapper">
+          <div>
+            {this.renderList()}
+          </div>
         </div>
         )
   }

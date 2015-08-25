@@ -11,7 +11,16 @@
   padding: 30px;
 }
 
-.board {
+.board-wrapper {
+  background: white;
   height: 400px;
   border: 1px solid black;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  resize: both;
+  overflow: auto;
 }
+

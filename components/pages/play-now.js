@@ -11,8 +11,6 @@ let PlayNow = React.createClass({
   boardValues: [[6,6,'r90']],
   left:6,
   right: 6,
-  side: null,
-  sideLeft: true,
   playerCards: [],
   getInitialState () {
     let cards = [];
@@ -38,9 +36,9 @@ let PlayNow = React.createClass({
     }
     return side;
   },
-  rotate (value, side) {
+  rotate (value, side, sideLeft) {
     let val = "";
-    if (this.sideLeft){
+    if (sideLeft){
       if((value[0] < value[1]) && (side == value[0])){
         val = "r270";
       }else{
@@ -52,14 +50,12 @@ let PlayNow = React.createClass({
   playCard (value) {
     if(_.contains(value,this.left)){
       this.left = this.updateCorner(this.left, value)
-      this.sideLeft = true;
-      let _class = this.rotate(value,this.left);
+      let _class = this.rotate(value,this.left, true);
       value.push(_class);
       this.boardValues.unshift(value);
     }else{
       this.right = this.updateCorner(this.right, value)
-      this.sideLeft = false;
-      let _class = this.rotate(value,this.right);
+      let _class = this.rotate(value,this.right, false);
       value.push(_class);
       this.boardValues.push(value);
     }
@@ -73,9 +69,7 @@ let PlayNow = React.createClass({
             <Avatar email="luisk.hernandez.macias@gmail.com" name="Luisk" selected={false}></Avatar>
             <Avatar email="luis.macias@koombea.com" name="Presto" selected={true}></Avatar>
           </div>
-          <div className="row">
-             <Board values={this.state.values} rotateConfig={this.rotateConfig}></Board>
-          </div>
+          <Board values={this.state.values} rotateConfig={this.rotateConfig}></Board>
           <div className="row">
              <Cards playCard={this.playCard} values={this.playerCards} nextCards={[this.left,this.right]}></Cards>
            </div>
