@@ -22,7 +22,7 @@ let PlayNow = React.createClass({
       })
     });
     cards = _.shuffle(cards);
-    this.playerCards = _.sample(cards,14);
+    this.playerCards = _.sample(cards,28);
     return {
       cards: cards,
       values: this.boardValues
@@ -42,22 +42,34 @@ let PlayNow = React.createClass({
       if((value[0] < value[1]) && (side == value[0])){
         val = "r270";
       }else{
-        val = "r90";
+        if(value[0] != value[1]){
+          val = "r90";
+        }
       }
     }
     return val;
   },
-  playCard (value) {
-    if(_.contains(value,this.left)){
+  playCardLeft (value){
       this.left = this.updateCorner(this.left, value)
       let _class = this.rotate(value,this.left, true);
       value.push(_class);
       this.boardValues.unshift(value);
-    }else{
+  },
+  playCardRight(value){
       this.right = this.updateCorner(this.right, value)
       let _class = this.rotate(value,this.right, false);
       value.push(_class);
       this.boardValues.push(value);
+  },
+  playCard (value, left) {
+    if(left && _.contains(value,this.left) === true){
+      this.playCardLeft(value);
+    }else{
+      if(_.contains(value,this.right) === true){
+        this.playCardRight(value);
+      }else{
+        this.playCardLeft(value);
+      }
     }
     this.setState({values: this.boardValues});
   },

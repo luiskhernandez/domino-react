@@ -3,7 +3,16 @@ import Card from './../domino/card';
 
 let Board = React.createClass({
   componentDidMount () {
-    $(".board-wrapper").droppable();
+    $(".dropzone-left").droppable({
+      drop: function(event, ui) {
+        ui.draggable.data('dropped', 'left');
+      }
+    });
+    $(".dropzone-right").droppable({
+      drop: function(event, ui) {
+        ui.draggable.data('dropped', 'right');
+      }
+    });
   },
   renderList () {
     let _this = this;
@@ -16,9 +25,11 @@ let Board = React.createClass({
   render () {
     return (
         <div className="board-wrapper">
+          <div className="dropzone dropzone-left"></div>
           <div>
             {this.renderList()}
           </div>
+          <div className="dropzone dropzone-right"></div>
         </div>
         )
   }

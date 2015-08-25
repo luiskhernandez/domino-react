@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import _ from 'underscore';
+import match from '../../helpers/number-to-words';
 
 
 let Card = React.createClass({
@@ -21,45 +22,27 @@ let Card = React.createClass({
     if(this.props.draggable === true){
       $("#card_"+this.props.index).draggable(
           {revert: 'invalid'},
-          {drag: function(event,ui) {
+          {start: function (event, ui) {
+            ui.helper.data('dropped', false);
            }
           },
           {stop: function (event, ui) {
-            $(this).hide();
-            _this.props.playCard(_this.props.value);
+            if(ui.helper.data('dropped') === 'left'){
+              $(this).hide();
+              _this.props.playCard(_this.props.value, true);
+            }else{
+              if(ui.helper.data('dropped') === 'right'){
+                $(this).hide();
+                _this.props.playCard(_this.props.value, false);
+              }
+            }
            }
           }
       );
       this.updateDragOptions();
     }
   },
-  match (param) {
-    let value;
-    switch(param){
-      case 0:
-        value = "blank";
-        break;
-      case 1:
-        value = "one";
-        break
-      case 2:
-        value = "two";
-        break
-      case 3:
-        value = "three";
-        break
-      case 4:
-        value = "four";
-        break
-      case 5:
-        value = "five";
-        break
-      case 6:
-        value = "six";
-        break
-    }
-    return value;
-  },
+  match: match,
   wordValue (array) {
     return this.match(array[0]) + " " + this.match(array[1]);
   },
