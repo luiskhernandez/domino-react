@@ -20,8 +20,8 @@ let App = React.createClass({
 
 let routes = (
      <Route handler={App}>
-       <Route path="/" name="home" handler={Home}></Route>
-       <Route path="/playnow" name="playnow" handler={PlayNow}></Route>
+       <Route path="/old" name="home" handler={Home}></Route>
+       <Route path="/" name="playnow" handler={PlayNow}></Route>
      </Route>
     );
 
