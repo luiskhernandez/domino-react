@@ -3,12 +3,15 @@ import Card from './../domino/card';
 
 let Board = React.createClass({
   componentDidMount () {
+    let _this = this;
     $(".dropzone-left").droppable({
+      activeClass: "ui-state-highlight",
       drop: function(event, ui) {
         ui.draggable.data('dropped', 'left');
       }
     });
     $(".dropzone-right").droppable({
+      activeClass: "ui-state-highlight",
       drop: function(event, ui) {
         ui.draggable.data('dropped', 'right');
       }

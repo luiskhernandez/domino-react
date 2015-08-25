@@ -38,12 +38,20 @@ let PlayNow = React.createClass({
   },
   rotate (value, side, sideLeft) {
     let val = "";
-    if (sideLeft){
+    if (sideLeft === true){
       if((value[0] < value[1]) && (side == value[0])){
         val = "r270";
       }else{
         if(value[0] != value[1]){
-          val = "r90";
+            val = "r90";
+        }
+      }
+    }else{
+      if((value[0] < value[1]) && (side == value[1])){
+        val = "r90_";
+      }else{
+        if(value[0] != value[1]){
+            val = "r270_";
         }
       }
     }
@@ -81,7 +89,7 @@ let PlayNow = React.createClass({
             <Avatar email="luisk.hernandez.macias@gmail.com" name="Luisk" selected={false}></Avatar>
             <Avatar email="luis.macias@koombea.com" name="Presto" selected={true}></Avatar>
           </div>
-          <Board values={this.state.values} rotateConfig={this.rotateConfig}></Board>
+          <Board nextCards={[this.left, this.right]} values={this.state.values}></Board>
           <div className="row">
              <Cards playCard={this.playCard} values={this.playerCards} nextCards={[this.left,this.right]}></Cards>
            </div>
