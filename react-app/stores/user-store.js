@@ -8,20 +8,20 @@ let UserStore = Reflux.createStore({
   users: [],
   getInitialState () {
     return {
-      users:[]
+      users:[],
+      current_user:null,
     }
   },
   fetchUser (){
     let _this = this;
-    this.users = [ {email: "luisk.hernandez.macias@gmail.com", name: "Luisk"},{ email: "luis.macias@koombea.com", name: "presto"}];
     this.trigger({users: this.users});
-    // $.ajax({
-    //   url: "http://localhost:1337/me",
-    //   success: function(data){
-    //     _this.user = data.user;
-    //     _this.trigger({ user: _this.user});
-    //   }
-    // })
+    $.ajax({
+      url: "http://localhost:3000/me",
+      success: function(data){
+        _this.user = data.user;
+        _this.trigger({ current_user: _this.user});
+      }
+    })
   }
 });
 

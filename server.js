@@ -15,6 +15,7 @@ app.use(express.static('public'));
 
 var cards = [];
 var users = [];
+
 var createBoardCards = function createBoardCards(){
   _.each(_.range(7), function(item){
     _.each(_.range(item, 7),function(item2){
@@ -31,11 +32,9 @@ app.get('/', function(req, res){
 
 app.post('/users', function(req, res){
   if (_.filter(users, function(user){ return user.email == req.body.email }).length == 0) {
-    console.log('Create user');
-    users.push({email: req.body.email});
+    users.push({email: req.body.email, selected: true});
     res.redirect('/play');
   } else {
-    console.log('User already in the list');
     res.redirect('/');
   }
 });
@@ -46,8 +45,10 @@ app.get('/play', function(req, res){
   }
   res.render('index');
 });
+app.get('/me', function(req, res){
+  res.json({user:{ email: "demo@demo.com"}});
+});
 
-// app.use('/games', games);
 app.get('/games/deal/card', function(req, res, next) {
   cards = _.shuffle(cards);
   var newcards = cards.splice(7);

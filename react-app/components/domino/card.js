@@ -6,13 +6,13 @@ import match from '../../helpers/number-to-words';
 
 let Card = React.createClass({
   updateDragOptions (){
-    if(this.props.draggable === true){
-      if(this.props.available === true){
-        $("#card_"+this.props.index).draggable("enable");
-      }else{
-        $("#card_"+this.props.index).draggable("disable");
+      if(this.props.draggable === true){
+        if(this.props.available === true && this.props.turn){
+          $("#card_"+this.props.index).draggable("enable");
+        }else{
+          $("#card_"+this.props.index).draggable("disable");
+        }
       }
-    }
   },
   componentDidUpdate (){
     this.updateDragOptions();
