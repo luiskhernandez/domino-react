@@ -1,5 +1,5 @@
 .domino         {
-                  background: transparent url(/images/dominos.png) no-repeat scroll 0 0;
+                  background: transparent url(images/dominos.png) no-repeat scroll 0 0;
                   width:41px; height:81px;
                   display: inline-block; text-indent: -9999px; padding: 0; overflow: hidden;
                 }

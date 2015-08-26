@@ -5,14 +5,16 @@ import Cards from '../domino/cards'
 import Board from '../boardgame/board';
 import _ from 'underscore';
 import PlaynowStore from '../../stores/playnow-store';
+import UserStore from '../../stores/user-store';
 import Reflux from 'reflux';
-import actions from '../../actions/playnow-actions';
+import PlayActions from '../../actions/playnow-actions';
+import UserActions from '../../actions/user-actions';
 
 let Link = Router.Link;
 
 let PlayNow = React.createClass({
-  // mixins: [ Reflux.connect(PlaynowStore), Reflux.listenTo(PlaynowStore, "onStoreChange")],
-  mixins: [ Reflux.connect(PlaynowStore)],
+  mixins: [ Reflux.connect(PlaynowStore), Reflux.connect(UserStore)],
+  socket: null,
   getInitialState(){
     return {
       values: this.boardValues
@@ -21,8 +23,9 @@ let PlayNow = React.createClass({
   onStoreChange (status){
     console.log(status)
   },
-  componentWillMount: function() {
-    actions.fetchBoardGame();
+  componentWillMount(){
+    PlayActions.fetchBoardGame();
+    UserActions.fetchUser();
   },
   boardValues: [[6,6,'r90']],
   left:6,
@@ -80,13 +83,20 @@ let PlayNow = React.createClass({
     }
     this.setState({values: this.boardValues});
   },
+  renderUsers () {
+    let _this = this;
+    return this.state.users.map( (value, index) => {
+      return (
+            <Avatar key={'avatar_'+ index + 1} email={value.email} name={value.name} selected={false}></Avatar>
+      )
+    });
+  },
   render () {
     return (
         <div>
            <Link to="home" className="push-right">Back to home</Link>
            <div className="row">
-            <Avatar email="luisk.hernandez.macias@gmail.com" name="Luisk" selected={false}></Avatar>
-            <Avatar email="luis.macias@koombea.com" name="Presto" selected={true}></Avatar>
+            {this.renderUsers()}
           </div>
           <Board nextCards={[this.left, this.right]} values={this.state.values}></Board>
           <div className="row">
