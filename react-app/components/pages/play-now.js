@@ -14,7 +14,7 @@ let Link = Router.Link;
 
 let PlayNow = React.createClass({
   mixins: [ Reflux.connect(PlaynowStore), Reflux.connect(UserStore)],
-  socket: null,
+  socket: io(),
   getInitialState(){
     return {
       values: this.boardValues
@@ -25,7 +25,12 @@ let PlayNow = React.createClass({
   },
   componentWillMount(){
     PlayActions.fetchBoardGame();
-    UserActions.fetchUser();
+    // UserActions.fetchUser();
+    let _this = this;
+    this.socket.on('fetchUsers', function(data) {
+      _this.setState({ users: data.users});
+    });
+    this.socket.emit('fetchUsers');
   },
   boardValues: [[6,6,'r90']],
   left:6,
