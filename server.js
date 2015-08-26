@@ -53,7 +53,11 @@ app.get('/games/deal/card', function(req, res, next) {
 
 io.on('connection', function(socket){
   console.log('a user connected');
+  socket.on('fetchUsers', function(){
+    io.broadcast.emit('fetchUsers', {users: users});
+  });
 });
+
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
