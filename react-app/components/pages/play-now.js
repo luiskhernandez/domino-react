@@ -30,7 +30,7 @@ let PlayNow = React.createClass({
     this.socket.on('fetchUsers', function(data) {
       _this.setState({ users: data.users});
     });
-    this.socket.emmit('fetchUsers');
+    this.socket.emit('fetchUsers');
   },
   boardValues: [[6,6,'r90']],
   left:6,

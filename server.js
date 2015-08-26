@@ -52,9 +52,8 @@ app.get('/games/deal/card', function(req, res, next) {
 });
 
 io.on('connection', function(socket){
-  console.log('a user connected');
   socket.on('fetchUsers', function(){
-    io.broadcast.emit('fetchUsers', {users: users});
+    io.emit('fetchUsers', {users: users});
   });
 });
 
