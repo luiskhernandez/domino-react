@@ -4,11 +4,17 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var games = require('./routes/games');
 var _ = require('underscore');
+var bodyParser = require('body-parser');
 
+app.set('views', __dirname + '/views')
+app.set('view engine', 'jade')
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static('public'));
 
 var cards = [];
+var users = [];
 var createBoardCards = function createBoardCards(){
   _.each(_.range(7), function(item){
     _.each(_.range(item, 7),function(item2){
@@ -18,11 +24,22 @@ var createBoardCards = function createBoardCards(){
     })
   });
 }
+
 app.get('/', function(req, res){
+  res.render('login');
+});
+
+app.post('/users', function(req, res){
+  console.log('Create user');
+  users.push({email: req.body.email});
+  res.redirect('/play');
+});
+
+app.get('/play', function(req, res){
   if (_.size(cards) == 0){
     createBoardCards()
   }
-  res.sendfile('index.html');
+  res.render('index');
 });
 
 // app.use('/games', games);
