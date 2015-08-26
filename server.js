@@ -30,9 +30,14 @@ app.get('/', function(req, res){
 });
 
 app.post('/users', function(req, res){
-  console.log('Create user');
-  users.push({email: req.body.email});
-  res.redirect('/play');
+  if (_.filter(users, function(user){ return user.email == req.body.email }).length == 0) {
+    console.log('Create user');
+    users.push({email: req.body.email});
+    res.redirect('/play');
+  } else {
+    console.log('User already in the list');
+    res.redirect('/');
+  }
 });
 
 app.get('/play', function(req, res){
@@ -54,7 +59,7 @@ app.get('/games/deal/card', function(req, res, next) {
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('fetchUsers', function(){
-    io.broadcast.emit('fetchUsers', {users: users});
+    io.emit('fetchUsers', {users: users});
   });
 });
 
