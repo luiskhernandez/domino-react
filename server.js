@@ -90,10 +90,12 @@ app.get('/games/deal/card', function(req, res, next) {
   res.json({cards: playercards});
 });
 
+// Add /me route
+
 // End Routes ===============================================================
 
 io.on('connection', function(socket){
   socket.on('fetchUsers', function(){
     io.emit('fetchUsers', {users: users});
   });
-});
+});*/
