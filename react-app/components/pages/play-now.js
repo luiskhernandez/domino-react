@@ -15,6 +15,23 @@ let Link = Router.Link;
 let PlayNow = React.createClass({
   mixins: [ Reflux.connect(PlaynowStore), Reflux.connect(UserStore)],
   socket: io(),
+  getPlayerWithTurn (){
+    if(this.state.current_user != null && this.state.users != null){
+      var a = _.filter(this.state.users, function(item){ return item.selected});
+      return a[0];
+    }else{
+      return false;
+    }
+  },
+  turn: function(){
+    var player = this.getPlayerWithTurn();
+    if(this.state.current_user != null && this.state.current_user != undefined && player){
+      var current_player = this.state.current_user.email;
+      return player.email == current_player;
+    }else{
+      return false;
+    }
+  },
   getInitialState(){
     return {
       values: this.boardValues
@@ -25,7 +42,7 @@ let PlayNow = React.createClass({
   },
   componentWillMount(){
     PlayActions.fetchBoardGame();
-    // UserActions.fetchUser();
+    UserActions.fetchUser();
     let _this = this;
     this.socket.on('fetchUsers', function(data) {
       _this.setState({ users: data.users});
@@ -92,7 +109,7 @@ let PlayNow = React.createClass({
     let _this = this;
     return this.state.users.map( (value, index) => {
       return (
-            <Avatar key={'avatar_'+ index + 1} email={value.email} name={value.name} selected={false}></Avatar>
+            <Avatar key={'avatar_'+ index + 1} email={value.email} name={value.name} selected={value.selected}></Avatar>
       )
     });
   },
@@ -105,7 +122,7 @@ let PlayNow = React.createClass({
           </div>
           <Board nextCards={[this.left, this.right]} values={this.state.values}></Board>
           <div className="row">
-             <Cards playCard={this.playCard} values={this.state.playerCards} nextCards={[this.left,this.right]}></Cards>
+             <Cards turn={this.turn()} playCard={this.playCard} values={this.state.playerCards} nextCards={[this.left,this.right]}></Cards>
            </div>
           </div>
         )

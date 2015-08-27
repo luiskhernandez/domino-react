@@ -13,7 +13,7 @@ let Cards = React.createClass({
     let _this = this;
     return this.props.values.map( (value, index) => {
       return(
-          <Card key={index} r90={false} draggable={true} index={index + 1} value={value} playCard={_this.props.playCard} available={this.isAvailable(value)}></Card>
+          <Card turn={this.props.turn} key={index} r90={false} draggable={true} index={index + 1} value={value} playCard={_this.props.playCard} available={this.isAvailable(value)}></Card>
       )
     });
   },

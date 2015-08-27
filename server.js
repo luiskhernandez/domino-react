@@ -70,7 +70,6 @@ app.post('/users', function(req, res){
     users.push({email: req.body.email, selected: selected});
     res.redirect('/play');
   } else {
-    console.log('User already in the list');
     res.redirect('/');
   }
 });
@@ -80,6 +79,9 @@ app.get('/play', function(req, res){
     createBoardCards()
   }
   res.render('index');
+});
+app.get('/me', function(req, res){
+  res.json({user:{ email: "demo@demo.com"}});
 });
 
 app.get('/games/deal/card', function(req, res, next) {
