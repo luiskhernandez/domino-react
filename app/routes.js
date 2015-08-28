@@ -1,4 +1,6 @@
-module.exports = function(app, passport) {
+var _       = require('underscore');
+
+module.exports = function(app, passport, board) {
 
     // =====================================
     // HOME PAGE (with facebook login) ========
@@ -18,11 +20,17 @@ module.exports = function(app, passport) {
     });
 
     // process the login form
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
-    }));
+    app.post('/login', 
+        passport.authenticate('local-login', {
+            successRedirect : '/play', // redirect to the secure profile section
+            failureRedirect : '/login', // redirect back to the signup page if there is an error
+            failureFlash : true // allow flash messages
+        }), 
+        function(req, res){
+            // Add player to board
+            board.addPlayerToBoard(req.user.email);
+        }
+    );
 
     // =====================================
     // SIGNUP ==============================
@@ -61,10 +69,35 @@ module.exports = function(app, passport) {
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-            successRedirect : '/profile',
+            successRedirect : '/play',
             failureRedirect : '/'
-        })
+        }), 
+        function(req, res){
+            // Add player to board
+            board.addPlayerToBoard(req.user.email);
+        }
     );
+
+    // =====================================
+    // GAME ROUTES =====================
+    // =====================================
+    // route to get the logged in user
+    app.get('/me', function(req, res) {
+      res.json( { user : { email: req.user.email } } );
+    });
+
+
+    app.get('/play', function(req, res){
+        // Create board
+        board.createBoardCards();
+        res.render('play.ejs');
+    });
+
+    app.get('/games/deal/card', function(req, res, next) {
+      // Get 7 new cards
+      res.json({cards: board.dealPlayerCards()});
+    });
+
 
     // =====================================
     // LOGOUT ==============================

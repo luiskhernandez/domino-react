@@ -1,16 +1,22 @@
 var express     = require('express');
 var app         = express();
 var port        = 3000;
+var server      = require('http').Server(app);
+var io          = require('socket.io')(server);
 var mongoose    = require('mongoose');
 var passport    = require('passport');
 var flash       = require('connect-flash');
+var _           = require('underscore');
 
 var morgan        = require('morgan');
 var cookieParser  = require('cookie-parser');
 var bodyParser    = require('body-parser');
 var session       = require('express-session');
 
-var configDB = require('./config/database.js');
+// Include database config
+var configDB  = require('./config/database.js');
+// Include the board object
+var board     = require('./app/services/game.js').Board();
 
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
@@ -31,73 +37,18 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in 
 
 // routes ======================================================================
-require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
-
-// launch ======================================================================
-app.listen(port);
-console.log('The magic happens on port ' + port);
-
+require('./app/routes.js')(app, passport, board); // load our routes and pass in our app and fully configured passport
 
 // Move Code
-/*var io          = require('socket.io')(http);
-
 var games = require('./routes/games');
-var _ = require('underscore');
-
-var cards = [];
-var users = [];
-
-var createBoardCards = function createBoardCards(){
-  _.each(_.range(7), function(item){
-    _.each(_.range(item, 7),function(item2){
-      if(item != 6 || item2 != 6){
-        cards.push([item,item2])
-      }
-    })
-  });
-}
-
-// Move routes to routes file ================================================
-
-app.post('/users', function(req, res){
-  if (_.filter(users, function(user){ return user.email == req.body.email }).length == 0) {
-    console.log('Create user');
-    if (users.length == 0) {
-      selected = true;
-    } else {
-      selected = false;
-    }
-    users.push({email: req.body.email, selected: selected});
-    res.redirect('/play');
-  } else {
-    res.redirect('/');
-  }
-});
-
-app.get('/play', function(req, res){
-  if (_.size(cards) == 0){
-    createBoardCards()
-  }
-  res.render('index');
-});
-app.get('/me', function(req, res){
-  res.json({user:{ email: "demo@demo.com"}});
-});
-
-app.get('/games/deal/card', function(req, res, next) {
-  cards = _.shuffle(cards);
-  var newcards = cards.splice(7);
-  var playercards = cards;
-  cards = newcards;
-  res.json({cards: playercards});
-});
-
-// Add /me route
-
-// End Routes ===============================================================
 
 io.on('connection', function(socket){
   socket.on('fetchUsers', function(){
     io.emit('fetchUsers', {users: users});
   });
-});*/
+});
+
+// launch ======================================================================
+server.listen(port, function () {
+  console.log('The magic happens on port ' + port);
+});
