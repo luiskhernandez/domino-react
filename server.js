@@ -29,6 +29,7 @@ app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser()); // get information from html forms
 
 app.set('view engine', 'ejs'); // set up ejs for templating
+app.use(express.static('public'));
 
 // required for passport
 app.use(session({ secret: 'dominojs' })); // session secret
@@ -44,7 +45,7 @@ var games = require('./routes/games');
 
 io.on('connection', function(socket){
   socket.on('fetchUsers', function(){
-    io.emit('fetchUsers', {users: users});
+    io.emit('fetchUsers', {users: board.users});
   });
 });
 

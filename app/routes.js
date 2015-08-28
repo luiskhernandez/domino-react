@@ -25,11 +25,7 @@ module.exports = function(app, passport, board) {
             successRedirect : '/play', // redirect to the secure profile section
             failureRedirect : '/login', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
-        }), 
-        function(req, res){
-            // Add player to board
-            board.addPlayerToBoard(req.user.email);
-        }
+        })
     );
 
     // =====================================
@@ -71,11 +67,7 @@ module.exports = function(app, passport, board) {
         passport.authenticate('facebook', {
             successRedirect : '/play',
             failureRedirect : '/'
-        }), 
-        function(req, res){
-            // Add player to board
-            board.addPlayerToBoard(req.user.email);
-        }
+        })
     );
 
     // =====================================
@@ -90,6 +82,8 @@ module.exports = function(app, passport, board) {
     app.get('/play', function(req, res){
         // Create board
         board.createBoardCards();
+        // Add player to board
+        board.addPlayerToBoard(req.user.email);
         res.render('play.ejs');
     });
 
