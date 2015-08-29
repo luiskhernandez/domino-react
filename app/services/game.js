@@ -20,7 +20,7 @@ var Board = function() {
 	  _.each(_.range(7), function(item){
 	    _.each(_.range(item, 7),function(item2){
 	      if(item != 6 || item2 != 6){
-	        cards.push([item,item2])
+	        cards.push([item, item2]);
 	      }
 	    })
 	  });
@@ -29,32 +29,37 @@ var Board = function() {
 	};
 
 	// Deal cards to a user
-	var dealPlayerCards = function() {
-		// Take away 7 cards from the array
-		var newcards = cards.splice(7);
-		// Assign the 7 cards to the player
-		var playercards = cards;
-		// Re-assign the array without the 7 cards
-  		cards = newcards;
-
-  		return playercards;
+	var dealPlayerCards = function dealPlayerCards(email) {
+		//Get index of the user
+		index = isPlayer(email)
+		// player has cards?
+		if (users[index - 1].cards.length == 0) {
+			// Take away 7 cards from the array
+			var newcards = cards.splice(7);
+			// Assign the 7 cards to the player
+			users[index - 1].cards = cards;
+			console.log(users[index - 1]);
+			// Re-assign the array without the 7 cards
+			cards = newcards;
+		} 
+		return users[index - 1].cards;
 	};
 
 	// Add new player to the board
 	var addPlayerToBoard = function(email) {
 		// Set the next move player
-        // TODO :: Refactor to assign the next move player dynamically
-        if (users.length == 0) {
-          selected = true;
-        } else {
-          selected = false;
-        }
+    // TODO :: Refactor to assign the next move player dynamically
+    if (users.length == 0) {
+      selected = true;
+    } else {
+      selected = false;
+    }
 
-        // Add player to the array
-        if(!playersComplete && (_.find(users,function(item) {return item.email == email}) == undefined)){
-          users.push({email: email, selected: selected});
-          if(users.length == 4){ playersComplete = true;}
-        }
+    // Add player to the array
+    if(!playersComplete && (){
+      users.push({email: email, selected: selected, cards: []});
+      if(users.length == 4){ playersComplete = true;}
+    }
 	};
 
   var isNewGame = function isNewGame() {
@@ -73,11 +78,18 @@ var Board = function() {
       }
     })
   };
+
   var playHandler = function(data, io) {
     boardCards = data.board;
     changeTurn(data.user);
     io.emit('fetchUsers', {users: users });
     io.emit('fetchBoard', {board: boardCards});
+  };
+
+  // Get the index of the user or 
+  // return false in case is not already a player
+  var isPlayer = function isPlayer(email) {
+  	return _.find(users,function(item) {return item.email == email}); 
   };
 
 	return {
@@ -87,10 +99,10 @@ var Board = function() {
 		createBoardCards: createBoardCards,
 		dealPlayerCards	: dealPlayerCards,
 		addPlayerToBoard: addPlayerToBoard,
-    isGameOver: gameOver,
-    playHandler: playHandler,
-    isPlayersComplete: playersComplete,
-    isNewGame: isNewGame
+	    isGameOver: gameOver,
+	    playHandler: playHandler,
+	    isPlayersComplete: playersComplete,
+	    isNewGame: isNewGame
 	}
 };
 
