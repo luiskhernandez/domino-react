@@ -79,7 +79,7 @@ module.exports = function(app, passport, board) {
     });
 
 
-    app.get('/play', function(req, res){
+    app.get('/play', isLoggedIn, function(req, res){
         // Create board
         if(board.isNewGame()){ board.createBoardCards();}
         // Add player to board
@@ -89,7 +89,7 @@ module.exports = function(app, passport, board) {
 
     app.get('/games/deal/card', function(req, res, next) {
       // Get 7 new cards
-      res.json({cards: board.dealPlayerCards()});
+      res.json({cards: board.dealPlayerCards(req.user.email)});
     });
 
 

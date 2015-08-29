@@ -126,7 +126,7 @@ let PlayNow = React.createClass({
       }
     }
     this.setState({values: this.boardValues});
-    this.socket.emit("sendBoard", {board: this.boardValues, user: this.state.current_user.email});
+    this.socket.emit("sendBoard", {board: this.boardValues, user: this.state.current_user.email, playedCard: value });
   },
   renderUsers () {
     let _this = this;
