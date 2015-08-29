@@ -53,7 +53,16 @@ io.on('connection', function(socket){
   });
 
   socket.on('sendBoard', function(data){
-    board.playHandler(data, io);
+    board
+    	.playHandler(data)
+    	.then(function(data){
+	    	io.emit('fetchUsers', {users: data.users });
+	    	io.emit('fetchBoard', {board: data.board});	
+    	});
+  });
+
+  socket.on('cardPlayed', function(data){
+  	board.playCard(data);
   });
 });
 

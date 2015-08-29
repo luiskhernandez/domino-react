@@ -31,32 +31,31 @@ var Board = function() {
 	// Deal cards to a user
 	var dealPlayerCards = function dealPlayerCards(email) {
 		//Get index of the user
-		index = isPlayer(email)
+		user = isPlayer(email)
 		// player has cards?
-		if (users[index - 1].cards.length == 0) {
+		if (user) {
 			// Take away 7 cards from the array
 			var newcards = cards.splice(7);
 			// Assign the 7 cards to the player
-			users[index - 1].cards = cards;
-			console.log(users[index - 1]);
+			user.cards = cards;
+			console.log(user);
 			// Re-assign the array without the 7 cards
 			cards = newcards;
 		} 
-		return users[index - 1].cards;
+		return user.cards;
 	};
 
 	// Add new player to the board
 	var addPlayerToBoard = function(email) {
-		// Set the next move player
-    // TODO :: Refactor to assign the next move player dynamically
-    if (users.length == 0) {
-      selected = true;
-    } else {
-      selected = false;
-    }
-
     // Add player to the array
-    if(!playersComplete && (){
+    if(!playersComplete && !isPlayer(email)){
+    	// Set the next move player
+    	// TODO :: Refactor to assign the next move player dynamically
+    	if (users.length == 0) {
+	      selected = true;
+	    } else {
+	      selected = false;
+	    }
       users.push({email: email, selected: selected, cards: []});
       if(users.length == 4){ playersComplete = true;}
     }
@@ -68,9 +67,9 @@ var Board = function() {
 
   var changeTurn = function(lastTurnEmail){
     _.each(users, function(user, index) {
-      if(user.email == lastTurnEmail){
+      if(user.email == lastTurnEmail) {
         user.selected = false;
-        if(index == users.length -1 ){
+        if(index == users.length -1 ) {
           users[0].selected = true;
         }else{
           users[index + 1].selected = true;
@@ -79,17 +78,30 @@ var Board = function() {
     })
   };
 
-  var playHandler = function(data, io) {
-    boardCards = data.board;
+  var playHandler = function(data) {
+    var boardCards = data.board;
+    var playedCard = data.playedCard;
+    // Remove card from player
+    user = isPlayer(data.user);
+    // Remove playedCard from the array of user cards if the user play a card
+    if (playedCard !== []) {
+    	removeCard(user, [playedCard[0], playedCard[1]]);
+    }
     changeTurn(data.user);
-    io.emit('fetchUsers', {users: users });
-    io.emit('fetchBoard', {board: boardCards});
+    return new Promise(function promise(resolve, reject){
+    	resolve({users: users, board: boardCards})
+    });
   };
 
   // Get the index of the user or 
   // return false in case is not already a player
   var isPlayer = function isPlayer(email) {
   	return _.find(users,function(item) {return item.email == email}); 
+  };
+
+  // Remove played card from player cards array
+  var removeCard = function removeCard(user, playedCard) {
+  	user.cards = _.reject(user.cards, playedCard);
   };
 
 	return {
@@ -99,10 +111,10 @@ var Board = function() {
 		createBoardCards: createBoardCards,
 		dealPlayerCards	: dealPlayerCards,
 		addPlayerToBoard: addPlayerToBoard,
-	    isGameOver: gameOver,
-	    playHandler: playHandler,
-	    isPlayersComplete: playersComplete,
-	    isNewGame: isNewGame
+    isGameOver: gameOver,
+    playHandler: playHandler,
+    isPlayersComplete: playersComplete,
+    isNewGame: isNewGame
 	}
 };
 
