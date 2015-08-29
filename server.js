@@ -51,10 +51,9 @@ io.on('connection', function(socket){
   socket.on('fetchBoard', function(data){
     io.emit('fetchBoard', {board: board.boardCards});
   });
+
   socket.on('sendBoard', function(data){
-    board.boardCards = data.board;
-    console.log(data);
-    io.emit('fetchBoard', {board: board.boardCards});
+    board.playHandler(data, io);
   });
 });
 

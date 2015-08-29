@@ -15,7 +15,6 @@ var Board = function() {
 
 	// Create a new board and populates the cards array out the 6|6
 	// with the possible combinations of cards leaving to start the game
-	//  
 	// TODO :: assign the 6|6 dynamicaly not to the fourth player
 	var createBoardCards = function() {
 	  _.each(_.range(7), function(item){
@@ -61,14 +60,34 @@ var Board = function() {
     return (cards.length  == 0) && (playersComplete === false)
   };
 
+  var changeTurn = function(lastTurnEmail){
+    _.each(users, function(user, index) {
+      if(user.email == lastTurnEmail){
+        user.selected = false;
+        if(index == users.length -1 ){
+          users[0].selected = true;
+        }else{
+          users[index + 1].selected = true;
+        }
+      }
+    })
+  };
+  var playHandler = function(data, io) {
+    boardCards = data.board;
+    changeTurn(data.user);
+    io.emit('fetchUsers', {users: users });
+    io.emit('fetchBoard', {board: boardCards});
+  };
+
 	return {
 		cards 			: cards,
-		boardCards 			: boardCards,
+		boardCards 	: boardCards,
 		users 			: users,
 		createBoardCards: createBoardCards,
 		dealPlayerCards	: dealPlayerCards,
 		addPlayerToBoard: addPlayerToBoard,
     isGameOver: gameOver,
+    playHandler: playHandler,
     isPlayersComplete: playersComplete,
     isNewGame: isNewGame
 	}
