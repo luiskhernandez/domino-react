@@ -34,10 +34,27 @@ let PlayNow = React.createClass({
   },
   getInitialState(){
     return {
-      values: this.boardValues
+      values: this.boardValues,
+      left: 6,
+      right: 6
     }
   },
-  onStoreChange (status){
+  updateCornes (data){
+    let left = data[0];
+    let right = data[data.length -1];
+    if(left[2] == "r90"){
+      left = left[1];
+    }else{
+      left = left[0];
+    }
+    if(right[2] == "r90_"){
+      right = right[1];
+    }else{
+      right = right[0];
+    }
+    this.left = left;
+    this.right = right;
+    this.setState({left: this.left, right: this.right});
   },
   componentWillMount(){
     PlayActions.fetchBoardGame();
@@ -48,6 +65,7 @@ let PlayNow = React.createClass({
     });
     this.socket.on('fetchBoard', function(data) {
       _this.boardValues = data.board;
+      _this.updateCornes(data.board);
       _this.setState({ values: data.board});
     });
     this.socket.emit('fetchUsers');
@@ -121,13 +139,13 @@ let PlayNow = React.createClass({
   render () {
     return (
         <div>
-           <Link to="home" className="push-right">Back to home</Link>
+            <a href="/">Back to home</a>
            <div className="row">
             {this.renderUsers()}
           </div>
           <Board nextCards={[this.left, this.right]} values={this.state.values}></Board>
           <div className="row">
-             <Cards turn={this.turn()} playCard={this.playCard} values={this.state.playerCards} nextCards={[this.left,this.right]}></Cards>
+             <Cards turn={this.turn()} playCard={this.playCard} values={this.state.playerCards} nextCards={[this.state.left,this.state.right]}></Cards>
            </div>
           </div>
         )
