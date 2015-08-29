@@ -38,7 +38,6 @@ var Board = function() {
 			var newcards = cards.splice(7);
 			// Assign the 7 cards to the player
 			user.cards = cards;
-			console.log(user);
 			// Re-assign the array without the 7 cards
 			cards = newcards;
 		} 
@@ -47,7 +46,6 @@ var Board = function() {
 
 	// Add new player to the board
 	var addPlayerToBoard = function(email) {
-    // Add player to the array
     if(!playersComplete && !isPlayer(email)){
     	// Set the next move player
     	// TODO :: Refactor to assign the next move player dynamically
@@ -56,6 +54,7 @@ var Board = function() {
 	    } else {
 	      selected = false;
 	    }
+    	// Add player to the array
       users.push({email: email, selected: selected, cards: []});
       if(users.length == 4){ playersComplete = true;}
     }
