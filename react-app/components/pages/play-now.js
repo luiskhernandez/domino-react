@@ -46,9 +46,14 @@ let PlayNow = React.createClass({
     this.socket.on('fetchUsers', function(data) {
       _this.setState({ users: data.users});
     });
+    this.socket.on('fetchBoard', function(data) {
+      _this.boardValues = data.board;
+      _this.setState({ values: data.board});
+    });
     this.socket.emit('fetchUsers');
+    this.socket.emit('fetchBoard');
   },
-  boardValues: [[6,6,'r90']],
+  boardValues: [],
   left:6,
   right: 6,
   updateCorner (side, value) {
@@ -103,6 +108,7 @@ let PlayNow = React.createClass({
       }
     }
     this.setState({values: this.boardValues});
+    this.socket.emit("sendBoard", {board: this.boardValues, user: this.state.current_user.email});
   },
   renderUsers () {
     let _this = this;
