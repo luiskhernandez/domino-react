@@ -49,8 +49,9 @@ var Board = function() {
         } else {
           selected = false;
         }
+
         // Add player to the array
-        if(!playersComplete){
+        if(!playersComplete && (_.find(users,function(item) {return item.email == email}) == undefined)){
           users.push({email: email, selected: selected});
           if(users.length == 4){ playersComplete = true;}
         }
