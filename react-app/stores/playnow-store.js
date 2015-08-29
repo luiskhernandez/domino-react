@@ -24,10 +24,7 @@ let PlaynowStore = Reflux.createStore({
     this.cards = _.shuffle(this.cards);
   },
   onFetchBoardGame () {
-    console.log("onFetchBoardGame");
     let _this = this;
-    // this.playerCards = _.sample(this.cards, 7);
-    // this.trigger({ playerCards: this.playerCards});
     $.ajax({
       url: "games/deal/card",
       success: function(data){

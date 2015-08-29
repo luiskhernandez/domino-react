@@ -38,7 +38,6 @@ let PlayNow = React.createClass({
     }
   },
   onStoreChange (status){
-    console.log(status)
   },
   componentWillMount(){
     PlayActions.fetchBoardGame();

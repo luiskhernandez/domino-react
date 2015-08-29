@@ -4,7 +4,6 @@ var _ = require('underscore');
 
 
 router.get('/deal/card', function(req, res, next) {
-    console.log("deal card");
     res.json({items: cards});
 });
 

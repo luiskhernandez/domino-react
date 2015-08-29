@@ -81,7 +81,7 @@ module.exports = function(app, passport, board) {
 
     app.get('/play', function(req, res){
         // Create board
-        board.createBoardCards();
+        if(board.isNewGame()){ board.createBoardCards();}
         // Add player to board
         board.addPlayerToBoard(req.user.email);
         res.render('play.ejs');

@@ -7,6 +7,8 @@ var Board = function() {
 	var cards = [];
 	// Create an empty array of players
 	var users = [];
+  var gameOver = false;
+  var playersComplete = false;
 
 	// methods =====================
 
@@ -48,15 +50,25 @@ var Board = function() {
           selected = false;
         }
         // Add player to the array
-        users.push({email: email, selected: selected});
+        if(!playersComplete){
+          users.push({email: email, selected: selected});
+          if(users.length == 4){ playersComplete = true;}
+        }
 	};
+
+  var isNewGame = function isNewGame() {
+    return (cards.length  == 0) && (playersComplete === false)
+  };
 
 	return {
 		cards 			: cards,
 		users 			: users,
 		createBoardCards: createBoardCards,
 		dealPlayerCards	: dealPlayerCards,
-		addPlayerToBoard: addPlayerToBoard
+		addPlayerToBoard: addPlayerToBoard,
+    isGameOver: gameOver,
+    isPlayersComplete: playersComplete,
+    isNewGame: isNewGame
 	}
 };
 
