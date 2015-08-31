@@ -22,7 +22,7 @@ let Cards = React.createClass({
   },
   render () {
     return (
-        <div className="navbar-fixed-bottom cards">
+        <div className="cards">
           <div id="players-cards" className="container">
             <div className="pull-left">
               {this.renderList()}

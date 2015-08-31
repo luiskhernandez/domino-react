@@ -28,10 +28,10 @@ let Board = React.createClass({
   render () {
     return (
         <div className="board-wrapper">
-          <div className="dropzone dropzone-left"></div>
           <div>
             {this.renderList()}
           </div>
+          <div className="dropzone dropzone-left"></div>
           <div className="dropzone dropzone-right"></div>
         </div>
         )
