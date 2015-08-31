@@ -9,6 +9,9 @@ let Cards = React.createClass({
     let nextCard = this.props.nextCards;
     return _.contains(value, this.props.nextCards[0]) || _.contains(value, this.props.nextCards[1])
   },
+  onPassTurn () {
+    this.props.playCard([]);
+  },
   renderList () {
     let _this = this;
     return this.props.values.map( (value, index) => {
@@ -21,7 +24,12 @@ let Cards = React.createClass({
     return (
         <div className="navbar-fixed-bottom cards">
           <div id="players-cards" className="container">
-            {this.renderList()}
+            <div className="pull-left">
+              {this.renderList()}
+            </div>
+            <div className="pull-right">
+              <button onClick={this.onPassTurn}>Pass </button>
+            </div>
           </div>
         </div>
         )

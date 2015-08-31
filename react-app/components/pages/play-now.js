@@ -116,13 +116,15 @@ let PlayNow = React.createClass({
       this.boardValues.push(value);
   },
   playCard (value, left) {
-    if(left && _.contains(value,this.left) === true){
-      this.playCardLeft(value);
-    }else{
-      if(_.contains(value,this.right) === true){
-        this.playCardRight(value);
-      }else{
+    if(value.length > 0) {
+      if(left && _.contains(value,this.left) === true){
         this.playCardLeft(value);
+      }else{
+        if(_.contains(value,this.right) === true){
+          this.playCardRight(value);
+        }else{
+          this.playCardLeft(value);
+        }
       }
     }
     this.setState({values: this.boardValues});
