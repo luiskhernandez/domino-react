@@ -45,11 +45,11 @@ var games = require('./routes/games');
 
 io.on('connection', function(socket){
   socket.on('fetchUsers', function(){
-    io.emit('fetchUsers', {users: board.users});
+    io.emit('fetchUsers', {users: board.getUsers()});
   });
 
   socket.on('fetchBoard', function(data){
-    io.emit('fetchBoard', {board: board.boardCards});
+    io.emit('fetchBoard', {board: board.getBoardsCards()});
   });
 
   socket.on('sendBoard', function(data){
