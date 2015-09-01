@@ -36,7 +36,8 @@ let PlayNow = React.createClass({
     return {
       values: this.boardValues,
       left: 6,
-      right: 6
+      right: 6,
+      playersComplete: false
     }
   },
   updateCornes (data){
@@ -62,6 +63,9 @@ let PlayNow = React.createClass({
     let _this = this;
     this.socket.on('fetchUsers', function(data) {
       _this.setState({ users: data.users});
+      if (data.users.length == 2){
+        _this.setState({playersComplete: true});
+      }
     });
     this.socket.on('fetchBoard', function(data) {
       _this.boardValues = data.board;
@@ -138,7 +142,7 @@ let PlayNow = React.createClass({
       )
     });
   },
-  render () {
+  renderGame(){
     return (
         <div>
             <a href="/">Back to home</a>
@@ -151,6 +155,17 @@ let PlayNow = React.createClass({
            </div>
           </div>
         )
+  },
+  render () {
+    if(this.state.playersComplete){
+      return this.renderGame()
+    }else{
+      return (
+          <div className="jumbotron">
+            <h1> <span className="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Waiting for players... </h1>
+          </div>
+          )
+    }
   }
 });
 export default PlayNow;
