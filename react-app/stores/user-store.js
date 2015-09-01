@@ -16,7 +16,7 @@ let UserStore = Reflux.createStore({
     let _this = this;
     this.trigger({users: this.users});
     $.ajax({
-      url: "http://localhost:3000/me",
+      url: "/me",
       success: function(data){
         _this.user = data.user;
         _this.trigger({ current_user: _this.user});
