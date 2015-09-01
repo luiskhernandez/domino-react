@@ -8,35 +8,37 @@
 }
 
 .cards {
-  padding: 30px;
+  padding-top: 50px;
+  clear: both;
 }
 
 .board-wrapper {
   background: white;
-  height: 200px;
   border: 1px solid black;
   margin: 0 auto;
   overflow: scroll;
   width: 900px;
+  display: table-cell;
 }
 
 .board-wrapper >  div:first-child{
   white-space: nowrap;
   text-align: center;
+  position: relative;
+  top: 30%;
 }
 
 .dropzone{
   width: 90px;
   height: 90px;
   background-color: rebeccapurple;
+  display: inline-block;
 }
 
-.dropzone-right{
-  float: right;
-}
-
-.dropzone-left{
+.dropzone, .board-wrapper{
   float: left;
-}
+  vertical-align: middle;
+  height: 300px;
+} 
 
 

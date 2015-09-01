@@ -27,11 +27,13 @@ let Board = React.createClass({
   },
   render () {
     return (
-        <div className="board-wrapper">
-          <div>
-            {this.renderList()}
-          </div>
+        <div>
           <div className="dropzone dropzone-left"></div>
+          <div className="board-wrapper">
+            <div>
+              {this.renderList()}
+            </div>
+          </div>
           <div className="dropzone dropzone-right"></div>
         </div>
         )
