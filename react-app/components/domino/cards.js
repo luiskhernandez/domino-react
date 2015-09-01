@@ -10,7 +10,9 @@ let Cards = React.createClass({
     return _.contains(value, this.props.nextCards[0]) || _.contains(value, this.props.nextCards[1])
   },
   onPassTurn () {
-    this.props.playCard([]);
+    if(this.props.turn){
+      this.props.playCard([]);
+    }
   },
   renderList () {
     let _this = this;
