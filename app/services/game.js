@@ -7,7 +7,7 @@ var Board = function() {
 	var cards = [];
 	// Create an empty array of players
 	var users = [];
-	var boardCards = [[6,6,'r90']];
+	var boardCards = [[6,6,'']];
   var gameOver = false;
   var playersComplete = false;
 
@@ -24,23 +24,27 @@ var Board = function() {
 	      }
 	    })
 	  });
-	  // Shuffle the cards
-	  cards = _.shuffle(cards);
 	};
 
+  var getShuffleCards = function() {
+	  // Shuffle the cards
+	  cards =  _.shuffle(cards);
+    return cards;
+  };
 	// Deal cards to a user
 	var dealPlayerCards = function dealPlayerCards(email) {
 		//Get index of the user
-		user = isPlayer(email)
+		user = isPlayer(email);
 		// player has cards?
-		if (user) {
+		if (user && user.cards.length == 0) {
 			// Take away 7 cards from the array
+      getShuffleCards();
 			var newcards = cards.splice(7);
 			// Assign the 7 cards to the player
 			user.cards = cards;
 			// Re-assign the array without the 7 cards
 			cards = newcards;
-		} 
+		}
 		return user.cards;
 	};
 
@@ -78,7 +82,7 @@ var Board = function() {
   };
 
   var playHandler = function(data) {
-    var boardCards = data.board;
+    boardCards = data.board;
     var playedCard = data.playedCard;
     // Remove card from player
     user = isPlayer(data.user);
@@ -104,9 +108,9 @@ var Board = function() {
   };
 
 	return {
-		cards 			: cards,
-		boardCards 	: boardCards,
-		users 			: users,
+		getCards 			: function() {return cards;},
+		getBoardsCards 	: function(){ return boardCards;},
+		getUsers 			: function() {  return users;},
 		createBoardCards: createBoardCards,
 		dealPlayerCards	: dealPlayerCards,
 		addPlayerToBoard: addPlayerToBoard,
