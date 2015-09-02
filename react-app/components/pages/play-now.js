@@ -67,6 +67,12 @@ let PlayNow = React.createClass({
         _this.setState({playersComplete: true});
       }
     });
+    this.socket.on('winner', function(data) {
+      alert("Winner" + data.winner.email);
+    });
+    this.socket.on('closed', function(data) {
+      alert("Game closed");
+    });
     this.socket.on('fetchBoard', function(data) {
       _this.boardValues = data.board;
       _this.updateCornes(data.board);
