@@ -1,6 +1,6 @@
 var express     = require('express');
 var app         = express();
-var port        = 3000;
+var port        = process.env.PORT || 3000;
 var server      = require('http').Server(app);
 var io          = require('socket.io')(server);
 var mongoose    = require('mongoose');
@@ -35,7 +35,7 @@ app.use(express.static('public'));
 app.use(session({ secret: 'dominojs' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in 
+app.use(flash()); // use connect-flash for flash messages stored in
 
 // routes ======================================================================
 require('./app/routes.js')(app, passport, board); // load our routes and pass in our app and fully configured passport
@@ -65,7 +65,7 @@ io.on('connection', function(socket){
           io.emit('gameClosed', {closed: true});
         }
 	    	io.emit('fetchUsers', {users: data.users });
-	    	io.emit('fetchBoard', {board: data.board});	
+	    	io.emit('fetchBoard', {board: data.board});
     	});
   });
 
