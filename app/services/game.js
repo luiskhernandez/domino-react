@@ -82,17 +82,38 @@ var Board = function() {
   };
 
   var playHandler = function(data) {
+
+    var winner, closed, playerCard;
+
+    // Update board cards
     boardCards = data.board;
-    var playedCard = data.playedCard;
+    
+    winner = false;
+    closed = false;
+    playedCard = data.playedCard;
     // Remove card from player
     user = isPlayer(data.user);
     // Remove playedCard from the array of user cards if the user play a card
     if (playedCard !== []) {
     	removeCard(user, [playedCard[0], playedCard[1]]);
     }
+    // is the current player the winner?
+    if (user.cards.length == 0) {
+      console.log("We got a winner!");
+      console.log(user);
+      winner = user;
+    }
+    // is the game closed?
+    if (!checkForMovesAvailable()) {
+      console.log("Game is closed!");
+      closed = true;
+    }
+
+    // Change to the next user
     changeTurn(data.user);
+
     return new Promise(function promise(resolve, reject){
-    	resolve({users: users, board: boardCards})
+    	resolve({users: users, board: boardCards, winner: winner, closed: closed});
     });
   };
 
@@ -105,6 +126,40 @@ var Board = function() {
   // Remove played card from player cards array
   var removeCard = function removeCard(user, playedCard) {
   	user.cards = _.reject(user.cards, playedCard);
+  };
+
+  // Check if there are moves availables
+  // If the game is closed the function 
+  // returns a promise to emit a message
+  var checkForMovesAvailable = function checkForMovesAvailable() {
+    var status, left, right;
+    status = false;
+    left = boardCards[0];
+    right = boardCards[boardCards.length - 1];
+
+    // Get the outer left card number
+    if (left[2] == "r90") {
+      left = left[1];
+    } else {
+      left = left[0];
+    }
+
+    // Get the outer right card number
+    if (right[2] == "r90_") {
+      right = right[1];
+    } else {
+      right = right[0];
+    }
+
+    // Check if one player have  at least one card to play
+    _.each(users, function(user, index) {
+      // Check if there is a move available
+      var move = _.find(user.cards, function(card) { return (card[0] == left || card[1] == left || card[0] == right || card[1] == right) }); 
+      if (move != undefined) {
+        status = true;
+      }
+    })
+    return status;
   };
 
 	return {
