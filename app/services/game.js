@@ -28,16 +28,18 @@ var Board = function() {
 
   var getShuffleCards = function() {
 	  // Shuffle the cards
-	  return  _.shuffle(cards);
+	  cards =  _.shuffle(cards);
+    return cards;
   };
 	// Deal cards to a user
 	var dealPlayerCards = function dealPlayerCards(email) {
 		//Get index of the user
 		user = isPlayer(email);
 		// player has cards?
-		if (user) {
+		if (user && user.cards.length == 0) {
 			// Take away 7 cards from the array
-			var newcards = getShuffleCards().splice(7);
+      getShuffleCards();
+			var newcards = cards.splice(7);
 			// Assign the 7 cards to the player
 			user.cards = cards;
 			// Re-assign the array without the 7 cards

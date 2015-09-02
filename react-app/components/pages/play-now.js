@@ -63,7 +63,7 @@ let PlayNow = React.createClass({
     let _this = this;
     this.socket.on('fetchUsers', function(data) {
       _this.setState({ users: data.users});
-      if (data.users.length == 2){
+      if (data.users.length == 4){
         _this.setState({playersComplete: true});
       }
     });
