@@ -7,7 +7,7 @@ var Board = function() {
 	var cards = [];
 	// Create an empty array of players
 	var users = [];
-	var boardCards = [[6,6,'r90']];
+	var boardCards = [[6,6,'']];
   var gameOver = false;
   var playersComplete = false;
 
