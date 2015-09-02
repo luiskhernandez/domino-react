@@ -60,6 +60,7 @@ io.on('connection', function(socket){
         if (data.winner != false) {
           io.emit('winner', {winner: data.winner});
         }
+        // game closed?
         if (data.closed) {
           io.emit('gameClosed', {closed: true});
         }

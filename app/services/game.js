@@ -99,10 +99,13 @@ var Board = function() {
     }
     // is the current player the winner?
     if (user.cards.length == 0) {
+      console.log("We got a winner!");
+      console.log(user);
       winner = user;
     }
     // is the game closed?
     if (!checkForMovesAvailable()) {
+      console.log("Game is closed!");
       closed = true;
     }
 
