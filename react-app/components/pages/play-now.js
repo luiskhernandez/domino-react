@@ -68,11 +68,17 @@ let PlayNow = React.createClass({
       }
     });
     this.socket.on('winner', function(data) {
-      alert("Winner" + data.winner.email);
+      var msg = data.closed ? 'Game closed. ' : '';
+      if (_this.state.current_user.email == data.winner.email){
+        msg += "Congrats! You have won.";
+      }else{
+        msg += "Winner " + data.winner.email + ".";
+      }
+      alert(msg);
     });
-    this.socket.on('closed', function(data) {
-      alert("Game closed");
-    });
+    // this.socket.on('closed', function(data) {
+    //   alert("Game closed");
+    // });
     this.socket.on('fetchBoard', function(data) {
       _this.boardValues = data.board;
       _this.updateCornes(data.board);

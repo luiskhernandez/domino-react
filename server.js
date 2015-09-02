@@ -57,13 +57,10 @@ io.on('connection', function(socket){
     	.playHandler(data)
     	.then(function(data){
         // a winner?
-        if (data.winner != false) {
-          io.emit('winner', {winner: data.winner});
+        if (data.winner !== false) {
+          io.emit('winner', {winner: data.winner, closed: data.closed});
         }
-        // game closed?
-        if (data.closed) {
-          io.emit('gameClosed', {closed: true});
-        }
+
 	    	io.emit('fetchUsers', {users: data.users });
 	    	io.emit('fetchBoard', {board: data.board});
     	});

@@ -87,7 +87,7 @@ var Board = function() {
 
     // Update board cards
     boardCards = data.board;
-    
+
     winner = false;
     closed = false;
     playedCard = data.playedCard;
@@ -107,6 +107,8 @@ var Board = function() {
     if (!checkForMovesAvailable()) {
       console.log("Game is closed!");
       closed = true;
+      winner = getWinnerGameClosed();
+      console.log('winner', winner);
     }
 
     // Change to the next user
@@ -117,10 +119,10 @@ var Board = function() {
     });
   };
 
-  // Get the index of the user or 
+  // Get the index of the user or
   // return false in case is not already a player
   var isPlayer = function isPlayer(email) {
-  	return _.find(users,function(item) {return item.email == email}); 
+  	return _.find(users,function(item) {return item.email == email});
   };
 
   // Remove played card from player cards array
@@ -129,7 +131,7 @@ var Board = function() {
   };
 
   // Check if there are moves availables
-  // If the game is closed the function 
+  // If the game is closed the function
   // returns a promise to emit a message
   var checkForMovesAvailable = function checkForMovesAvailable() {
     var status, left, right;
@@ -154,7 +156,7 @@ var Board = function() {
     // Check if one player have  at least one card to play
     _.each(users, function(user, index) {
       // Check if there is a move available
-      var move = _.find(user.cards, function(card) { return (card[0] == left || card[1] == left || card[0] == right || card[1] == right) }); 
+      var move = _.find(user.cards, function(card) { return (card[0] == left || card[1] == left || card[0] == right || card[1] == right) });
       if (move != undefined) {
         status = true;
       }
@@ -162,10 +164,25 @@ var Board = function() {
     return status;
   };
 
+  var getWinnerGameClosed = function(){
+    var max = 99;
+    var winner;
+    _.each(users, function(user){
+      var result = _.reduce(user.cards, function(sum, card) {
+        return sum + card[0] + card[1]
+      }, 0);
+      if(result < max){
+        max = result;
+        winner = user;
+      }
+    })
+    return winner
+  }
+
 	return {
-		getCards 			: function() {return cards;},
-		getBoardsCards 	: function(){ return boardCards;},
-		getUsers 			: function() {  return users;},
+		getCards 			: function(){return cards;},
+		getBoardsCards 	: function(){return boardCards;},
+		getUsers 			: function(){return users;},
 		createBoardCards: createBoardCards,
 		dealPlayerCards	: dealPlayerCards,
 		addPlayerToBoard: addPlayerToBoard,
