@@ -22,6 +22,7 @@ let routes = (
      <Route handler={App}>
        <Route path="/old" name="home" handler={Home}></Route>
        <Route path="/" name="playnow" handler={PlayNow}></Route>
+       <Route path="/_=_" name="playnow2" handler={PlayNow}></Route>
      </Route>
     );
 
