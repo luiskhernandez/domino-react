@@ -1,9 +1,10 @@
 var ids = {
   facebookAuth: {
-     clientID: '397964177060387',
-     clientSecret: '13382278d6aa24a140946fa3e5ebed5c',
-     callbackURL: 'http://localhost:3000/auth/facebook/callback'
+     clientID: process.env.FACEBOOK_CLIENT || '498954433616322',
+     clientSecret: process.env.FACEBOOK_SECRET || 'c20f555df96bcaf6d2587375bc539bbb',
+     callbackURL: process.env.FACEBOOK_CALLBACK || 'http://localhost:3000/auth/facebook/callback'
   }
 };
 
+console.log(ids)
 module.exports = ids;
